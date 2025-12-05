@@ -44,7 +44,7 @@ export default function RegisterPage() {
             }
 
             // Auto-login after registration
-            login(data.user, data.access_token);
+            login(data.user);
 
             router.replace("/login"); 
         } catch (err) {
