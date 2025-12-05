@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage() {
@@ -32,6 +31,7 @@ export default function LoginPage() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
+                credentials: "include", // ✅ important for cookies
             });
 
             const data = await res.json();
@@ -42,10 +42,8 @@ export default function LoginPage() {
                 return;
             }
 
-            // Save user in context
-            console.log(data.user);
-            
-            login(data.user, data.access_token);
+            // Save only user info in context
+            login(data.user);
 
             router.replace("/"); // redirect home/dashboard
         } catch (err) {

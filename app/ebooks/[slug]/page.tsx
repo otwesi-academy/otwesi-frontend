@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useAuth } from "../../../context/AuthContext"
 
 interface Author {
     fullname: string;
@@ -25,10 +26,10 @@ export default function EbookDetailPage() {
     const params = useParams();
     const slug = params.slug;
 
+    const { user } = useAuth(); // Use user from context
     const [ebook, setEbook] = useState<Ebook | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [user, setUser] = useState<any>(null);
     const [showPurchaseOptions, setShowPurchaseOptions] = useState(false);
 
     // Fetch ebook
@@ -48,14 +49,6 @@ export default function EbookDetailPage() {
         fetchEbook();
     }, [slug]);
 
-    // Check logged in user
-    useEffect(() => {
-        const token = localStorage.getItem("token"); // <- use token
-        if (token) {
-            setUser({ token }); // just store token for requests
-        }
-    }, []);
-
     const handlePurchaseClick = () => {
         if (!user) {
             alert("You need to log in to purchase this ebook.");
@@ -66,15 +59,15 @@ export default function EbookDetailPage() {
     };
 
     const createOrder = async (paymentMethod: "whatsapp" | "online") => {
-        if (!ebook || !user) return null;
+        if (!ebook) return null;
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
                 },
+                credentials: "include", // ✅ Send the cookie automatically
                 body: JSON.stringify({
                     ebook_id: ebook._id,
                     quantity: 1,
@@ -115,7 +108,6 @@ export default function EbookDetailPage() {
         if (!order) return;
 
         // Redirect user to Selar with reference
-        // window.open(`https://selar.co/${ebook.selar_product_id}?ref=${order._id}`, "_blank");
         window.open(`https://selar.co/${ebook.selar_product_id}?buyer_ref=${order._id}`, "_blank");
     };
 

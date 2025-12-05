@@ -28,7 +28,6 @@ interface BlogPost {
 
 export default async function Home() {
   const courses: Course[] = (await courseApi.listCourses()).slice(0, 3);
-  console.log("home page: " + courses);
   const ebooks: Ebook[] = (await ebookApi.listEbooks()).slice(0, 3);
   const blogposts: BlogPost[] = (await blogpostApi.listBlogposts()).slice(0, 3);
   

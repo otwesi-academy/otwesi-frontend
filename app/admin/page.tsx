@@ -1,13 +1,47 @@
-import AdminCard from "./components/AdminCard";
+"use client";
 
-export default async function AdminDashboard() {
-    const stats = {
-        courses: 12,
-        ebooks: 8,
-        blogposts: 25,
-        reviews: 40,
-        users: 102,
-    };
+import { useEffect, useState } from "react";
+import AdminCard from "./components/AdminCard";
+import { useAuth } from "../../context/AuthContext";
+
+export default function AdminDashboard() {
+    const { user } = useAuth(); // get user from context
+    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState<any>(null);
+
+    useEffect(() => {
+        if (!user || !user.is_admin) {
+            setLoading(false); // stop loading if not authorized
+            return;
+        }
+
+        const fetchStats = async () => {
+            try {
+                // No need to send token manually; cookies are sent automatically
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/admin/stats`,
+                    {
+                        credentials: "include", // Important to send HttpOnly cookies
+                    }
+                );
+
+                if (!res.ok) throw new Error("Failed to fetch stats");
+                const data = await res.json();
+                setStats(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, [user]);
+
+    if (loading) return <p className="text-white">Loading...</p>;
+    if (!user || !user.is_admin)
+        return <p className="text-red-500">Access Denied</p>;
+    if (!stats) return <p className="text-white">Loading dashboard...</p>;
 
     return (
         <div>
