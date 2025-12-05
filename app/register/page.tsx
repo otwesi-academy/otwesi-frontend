@@ -70,6 +70,7 @@ export default function RegisterPage() {
                         type="text"
                         className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
                         value={fullname}
+                        placeholder="John Doe"
                         onChange={(e) => setFullname(e.target.value)}
                         required
                         disabled={loading}
@@ -82,6 +83,7 @@ export default function RegisterPage() {
                         type="email"
                         className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
                         value={email}
+                        placeholder="john@doe.com"
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         disabled={loading}
@@ -92,6 +94,7 @@ export default function RegisterPage() {
                     <label>Password</label>
                     <input
                         type="password"
+                        placeholder="minimum of 6 characters"
                         className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -113,6 +116,12 @@ export default function RegisterPage() {
                     <Link href="/login" className="text-blue-600 hover:underline">
                         Click here to login
                     </Link>
+                </p>
+                <p className="text-center text-sm mt-2">
+                    By continuing you agree to our 
+                    <Link href="/terms" className="text-red-600 hover:underline"> Terms </Link> 
+                    & 
+                    <Link href="/privacy-policy" className="text-red-600 hover:underline"> Privacy policy</Link> 
                 </p>
             </form>
         </div>

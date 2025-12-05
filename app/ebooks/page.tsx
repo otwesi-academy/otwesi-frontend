@@ -11,7 +11,7 @@ interface Ebook {
     slug: string;
     price: number;
     thumbnail_url: string;
-    ebook_file_url: string;
+    selar_product_id: string;
     created_at: string;
     updated_at: string;
 }

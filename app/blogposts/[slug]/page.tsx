@@ -2,10 +2,16 @@
 
 import Image from "next/image";
 
+interface Block {
+    id: string;
+    type: "text" | "image";
+    content: string;
+}
+
 interface BlogPost {
     title: string;
     slug: string;
-    content: string;
+    content: string; // JSON string of blocks
     thumbnail_url: string | null;
     category: string;
     author: {
@@ -24,14 +30,17 @@ async function getBlogPost(slug: string): Promise<BlogPost> {
     return res.json();
 }
 
-export default async function BlogDetailPage({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}) {
-    const { slug } = await params; // ← IMPORTANT with Next.js 15
-
+export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     const blog = await getBlogPost(slug);
+
+    // Parse blocks
+    let blocks: Block[] = [];
+    try {
+        blocks = JSON.parse(blog.content);
+    } catch (err) {
+        console.error("Failed to parse blog content:", err);
+    }
 
     return (
         <div className="max-w-3xl mx-auto py-12 px-4 prose">
@@ -51,8 +60,27 @@ export default async function BlogDetailPage({
                 {blog.author.fullname} • {new Date(blog.created_at).toLocaleDateString()}
             </p>
 
-            {/* Render content as HTML from FastAPI */}
-            <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+            {/* Render blocks */}
+            <div className="space-y-6">
+                {blocks.map((block) => {
+                    if (block.type === "text") {
+                        // Split text by double line breaks and render as paragraphs
+                        return block.content.split("\n\n").map((p, i) => (
+                            <p key={block.id + "-" + i}>{p}</p>
+                        ));
+                    } else if (block.type === "image") {
+                        return (
+                            <img
+                                key={block.id}
+                                src={block.content} // make sure this URL is correct
+                                alt=""
+                                className="w-full rounded-lg"
+                            />
+                        );
+                    }
+                    return null;
+                })}
+            </div>
         </div>
     );
 }

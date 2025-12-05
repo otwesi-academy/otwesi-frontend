@@ -68,7 +68,18 @@ export default function BlogListPage() {
             {/* Blog Grid */}
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {currentPosts.map((post) => {
-                    const cleanContent = post.content.replace(/(<([^>]+)>)/gi, "");
+                    let preview = "";
+                    try {
+                        const blocks = JSON.parse(post.content);
+                        preview = blocks
+                            .filter((b: any) => b.type === "text")
+                            .map((b: any) => b.content)
+                            .join(" ")
+                            .slice(0, 150); // first 150 chars
+                    } catch (err) {
+                        console.error("Failed to parse content for preview:", err);
+                        preview = "";
+                    }
 
                     const authorName =
                         post.author?.fullname ||
@@ -96,20 +107,19 @@ export default function BlogListPage() {
                                 <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
 
                                 <p className="text-gray-600 dark:text-gray-300 line-clamp-3">
-                                    {cleanContent}
+                                    {preview}...
                                 </p>
 
                                 <div className="mt-auto pt-4 flex justify-between text-sm text-gray-500">
                                     <span>{authorName}</span>
-                                    <span>
-                                        {new Date(post.created_at).toLocaleDateString()}
-                                    </span>
+                                    <span>{new Date(post.created_at).toLocaleDateString()}</span>
                                 </div>
                             </div>
                         </Link>
                     );
                 })}
             </div>
+
 
             {/* Pagination */}
             {totalPages > 1 && (
