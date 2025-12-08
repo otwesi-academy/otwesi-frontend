@@ -179,7 +179,6 @@ export default function AdminAttendancePage() {
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <span className="bg-gray-700 px-3 py-1 rounded text-sm">{t.attendee_count ?? 0} attendees</span>
 
                                 <button onClick={() => openAttendeesModal(t)} className="bg-green-600 px-3 py-1 rounded">
                                     View
@@ -243,7 +242,7 @@ export default function AdminAttendancePage() {
                         <div className="p-4 border-b border-gray-700 flex items-center justify-between">
                             <div>
                                 <h2 className="text-lg font-bold">Attendees — {selectedTitle.title}</h2>
-                                <div className="text-sm text-gray-400">{selectedTitle.attendee_count ?? 0} total</div>
+                                <div className="text-sm text-gray-400">{attendees.length ?? 0} total</div>
                             </div>
 
                             <div className="flex items-center gap-2">
