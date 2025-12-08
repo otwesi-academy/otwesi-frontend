@@ -3,7 +3,7 @@ import Hero from '../components/Hero';
 import Section from '../components/Section';
 import Card from '../components/Card';
 
-import { courseApi, ebookApi, blogpostApi } from '@/services/api';
+import { courseApi, ebookApi, blogpostApi } from '@/lib/api';
 
 interface Course {
   title: string;

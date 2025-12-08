@@ -11,6 +11,7 @@ const links = [
     { name: "Blogposts", href: "/admin/blogposts" },
     { name: "Reviews", href: "/admin/reviews" },
     { name: "Users", href: "/admin/users" },
+    { name: "Attendance", href: "/admin/attendance" },
 ];
 
 export default function AdminSidebar({

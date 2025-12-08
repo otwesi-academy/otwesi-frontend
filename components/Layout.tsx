@@ -29,6 +29,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link href="/courses">Courses</Link>
                     <Link href="/ebooks">Ebooks</Link>
                     <Link href="/blogposts">Blog</Link>
+                    <Link href="/attendance">Attendance</Link>
                     <Link href="/contact">Contact</Link>
                     <Link href="/about">About Us</Link>
                     {/* <Link href="/login">Login</Link>
@@ -71,6 +72,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                     <Link href="/blogposts" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                         Blog
+                    </Link>
+                    <Link href="/attendance" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                        Attendance
                     </Link>
                     <Link href="/contact" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                         Contact

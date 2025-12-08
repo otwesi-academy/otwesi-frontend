@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseISO } from "date-fns";
 
-import { courseApi } from "@/services/api";
+import { courseApi } from "@/lib/api";
 
 
 interface Course {
