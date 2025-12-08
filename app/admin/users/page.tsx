@@ -65,7 +65,7 @@ export default function AdminUsersPage() {
 
             const url = editingUserId
                 ? `${process.env.NEXT_PUBLIC_API_URL}/users/${editingUserId}`
-                : `${process.env.NEXT_PUBLIC_API_URL}/users/admin/register`;
+                : `${process.env.NEXT_PUBLIC_API_URL}/users/auth/admin/register`;
 
             const method = editingUserId ? "PUT" : "POST";
 

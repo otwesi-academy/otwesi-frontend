@@ -32,8 +32,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link href="/attendance">Attendance</Link>
                     <Link href="/contact">Contact</Link>
                     <Link href="/about">About Us</Link>
-                    {/* <Link href="/login">Login</Link>
-                    <Link href="/register">Register</Link> */}
 
                     {user ? (
                         <>
