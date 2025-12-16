@@ -9,7 +9,7 @@ interface CardProps {
 
 
 const Card: React.FC<CardProps> = ({ title, description, link }) => (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-xl transition">
+    <div className="bg-[#8ec4fa] dark:bg-gray-800 rounded-xl shadow-md p-6 hover:shadow-xl transition">
         <h4 className="text-xl font-semibold mb-2">{title}</h4>
         <p className="text-gray-700 dark:text-gray-300 mb-4">{description}</p>
         {link && (
