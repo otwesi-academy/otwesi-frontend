@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "OTWESI Academy",
-  description: "Learn online courses, ebooks, blogs, and more",
+  description: "Otwesi Digital Academy is a coaching platform that helps young people understand, grow and thrive confidently in the digital economy.",
 };
 
 export default function RootLayout({
