@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import AdminCard from "./components/AdminCard";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../lib/api";
+
 
 export default function AdminDashboard() {
     const { user } = useAuth(); // get user from context
@@ -17,23 +19,14 @@ export default function AdminDashboard() {
 
         const fetchStats = async () => {
             try {
-                // No need to send token manually; cookies are sent automatically
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/admin/stats`,
-                    {
-                        credentials: "include", // Important to send HttpOnly cookies
-                    }
-                );
-
-                if (!res.ok) throw new Error("Failed to fetch stats");
-                const data = await res.json();
-                setStats(data);
+                const res = await api.get("/admin/stats");
+                setStats(res.data);
             } catch (err) {
                 console.error(err);
             } finally {
                 setLoading(false);
             }
-        };
+        }
 
         fetchStats();
     }, [user]);

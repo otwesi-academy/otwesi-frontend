@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
+
 
 import { useAuth } from "../context/AuthContext";
 
@@ -18,10 +20,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             {/* HEADER */}
             <header className="px-4 sm:px-6 lg:px-8 py-3 bg-gray-100 dark:bg-gray-800 shadow-md flex justify-between items-center">
                 <Link href="/" className="text-center">
-                    <h1 className="text-xl sm:text-2xl font-bold leading-tight">
+
+                    <img 
+                        src="/otwesi_logo1.jpg"
+                        alt="logo" 
+                        width="120" 
+                        className="rounded-2xl"
+                    />
+                    {/* <h1 className="text-xl sm:text-2xl font-bold leading-tight">
                         OTWESI <br />
                         <span className="tracking-widest text-sm sm:text-base">ACADEMY</span>
-                    </h1>
+                    </h1> */}
                 </Link>
 
                 {/* Desktop Nav */}
@@ -42,8 +51,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         </>
                     ) : (
                         <>
-                        <Link href="/login">Login</Link>
-                        <Link href="/register">Register</Link>
+                            <Link href="/login">Login</Link>
+                            <Link href="/register">Register</Link>
                         </>
                     )}
 

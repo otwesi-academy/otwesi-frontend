@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+
 
 export default function AttendancePage() {
     const [titles, setTitles] = useState<any[]>([]);
@@ -12,25 +14,36 @@ export default function AttendancePage() {
     }, []);
 
     async function fetchTitles() {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/titles`);
-        const data = await res.json();
-        setTitles(data);
+        try {
+            const res = await api.get("/attendance/titles");
+            setTitles(res.data);
+        } catch (err) {
+            console.error("Failed to fetch titles:", err);
+        }
     }
+
 
     async function submitAttendance() {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/submit`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+        if (!selectedTitle?._id || !name.trim()) {
+            alert("Please enter a name.");
+            return;
+        }
+
+        try {
+            await api.post("/attendance/submit", {
                 attendance_title_id: selectedTitle._id,
                 student_name: name,
-            }),
-        });
+            });
 
-        alert("Attendance submitted!");
-        setSelectedTitle(null);
-        setName("");
+            alert("Attendance submitted!");
+            setSelectedTitle(null);
+            setName("");
+        } catch (err) {
+            console.error("Failed to submit attendance:", err);
+            alert("Failed to submit attendance.");
+        }
     }
+
 
     return (
         <div className="text-white">
@@ -62,6 +75,7 @@ export default function AttendancePage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your name"
+                        required
                         className="p-2 rounded text-white mb-4 w-full bg-gray-800 border border-gray-700 grow"
                     />
 

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { api } from "../../../lib/api";
+
 
 type Block = {
     id: string;
@@ -33,18 +35,18 @@ export default function AdminBlogPostsPage() {
     const [editingSlug, setEditingSlug] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
-    // Fetch blogposts
+
     const fetchBlogposts = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogposts`);
-            const data = await res.json();
-            setBlogposts(data);
+            const res = await api.get("/blogposts")
+            setBlogposts(res.data);
         } catch (err) {
             console.error(err);
+            
         } finally {
             setLoadingPosts(false);
         }
-    };
+    }
 
     useEffect(() => {
         fetchBlogposts();
@@ -103,66 +105,64 @@ export default function AdminBlogPostsPage() {
         setShowForm(true);
     };
 
-    // Submit
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!title.trim() || blocks.length === 0 || blocks.some(b => b.type === "text" && !b.content.trim())) {
-            alert("Please fill all required fields");
-            return;
+
+        if (
+            !title.trim() || 
+            blocks.length === 0 || 
+            blocks.some(b => b.type === "text" && !b.content.trim())) {
+                alert("Please fill all required fields");
+                return;
         }
 
         setSubmitting(true);
-
+        
         try {
             const formData = new FormData();
             formData.append("title", title);
             if (thumbnail) formData.append("thumbnail", thumbnail);
             formData.append("content", JSON.stringify(blocks));
 
-            const token = localStorage.getItem("token");
+            const endpoint = editingSlug
+                ? `/blogposts/${editingSlug}`
+                : `/blogposts`;
+            console.log("here here: ", endpoint)
+            const method = editingSlug ? "put" : "post";
 
-            const method = editingSlug ? "PUT" : "POST";
-            const url = editingSlug
-                ? `${process.env.NEXT_PUBLIC_API_URL}/blogposts/${editingSlug}`
-                : `${process.env.NEXT_PUBLIC_API_URL}/blogposts`;
-
-            const res = await fetch(url, {
+            const res = await api({
+                url: endpoint,
                 method,
-                body: formData,
+                data: formData,
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
                 },
             });
-
-            if (res.ok) {
-                fetchBlogposts();
-                resetForm();
-            } else {
-                const err = await res.json();
-                console.error("Error:", err);
-                alert("Failed to submit blogpost");
-            }
+            fetchBlogposts();
+            resetForm();
+            
         } catch (err) {
             console.error(err);
-            alert("An error occurred");
+            alert("Failed to submit blogpost");
         } finally {
             setSubmitting(false);
         }
-    };
+
+    }
 
     const deleteBlogpost = async (slug: string) => {
         if (!confirm("Are you sure you want to delete this blogpost?")) return;
-        const token = localStorage.getItem("token");
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogposts/${slug}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (res.ok) fetchBlogposts();
+        try {
+            await api.delete(`/blogposts/${slug}`);
+            fetchBlogposts();
+        } catch (err) {
+            console.error(err);
+            alert("Failed to delete blogpost");
+        }
     };
+
 
     return (
         <div className="p-6 max-w-7xl mx-auto text-white">
@@ -219,6 +219,7 @@ export default function AdminBlogPostsPage() {
                         <input
                             type="file"
                             accept="image/*"
+                            required
                             onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
                             className="w-full text-white bg-gray-700 p-1 rounded"
                         />

@@ -6,9 +6,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const testimonials = [
-    { name: "Sarah Johnson", text: "This platform transformed my learning journey. Highly recommended!" },
-    { name: "Michael Lee", text: "The courses are top quality. Very easy to navigate and learn." },
-    { name: "Blessing Okoro", text: "I gained real skills and landed a remote job — thank you!" },
+    { name: "Clinton, Undergraduate", text: "I was initially scared of buying the book because I thought I would not get the value for my money. But thank God I bought it...it was worth way more than I paid for." },
+    { name: "Ibrahim, Undergraduate", text: "I just finished reading volume two of the book. It has opened my eyes to the fullest. I really enjoyed the book.  I would like to join your mentorship program." },
+    // { name: "Blessing Okoro", text: "I gained real skills and landed a remote job — thank you!" },
 ];
 
 export default function TestimonialSlider() {

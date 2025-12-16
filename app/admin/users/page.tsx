@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState<any[]>([]);
@@ -24,18 +26,15 @@ export default function AdminUsersPage() {
 
     const fetchUsers = async () => {
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await res.json();
-            setUsers(data);
+            const res = await api.get("/users");
+            setUsers(res.data);
         } catch (err) {
             console.error("Failed to fetch users:", err);
         } finally {
             setLoadingUsers(false);
         }
     };
+
 
     useEffect(() => {
         fetchUsers();
@@ -61,46 +60,38 @@ export default function AdminUsersPage() {
         setSubmitting(true);
 
         try {
-            const token = localStorage.getItem("token");
+            const endpoint = editingUserId
+                ? `/users/${editingUserId}`
+                : `/users/auth/admin/register`;
 
-            const url = editingUserId
-                ? `${process.env.NEXT_PUBLIC_API_URL}/users/${editingUserId}`
-                : `${process.env.NEXT_PUBLIC_API_URL}/users/auth/admin/register`;
-
-            const method = editingUserId ? "PUT" : "POST";
+            const method = editingUserId ? "put" : "post";
 
             const body: any = {
                 fullname,
                 email,
-                is_admin: role === "admin", // convert dropdown to boolean
+                is_admin: role === "admin",
             };
-            if (!editingUserId) body.password = password; // only for new user
 
-            const res = await fetch(url, {
-                method,
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(body),
-            });
-
-            if (!res.ok) {
-                const err = await res.json();
-                console.error("Error:", err);
-                alert("Failed to save user");
-                return;
+            if (!editingUserId) {
+                body.password = password;
             }
+
+            await api({
+                url: endpoint,
+                method,
+                data: body,
+            });
 
             fetchUsers();
             resetForm();
         } catch (err) {
             console.error(err);
-            alert("An error occurred");
+            alert("Failed to save user");
         } finally {
             setSubmitting(false);
         }
     };
+
 
     const loadUserForEditing = (user: any) => {
         setEditingUserId(user._id);
@@ -114,17 +105,14 @@ export default function AdminUsersPage() {
         if (!confirm("Are you sure you want to delete this user?")) return;
 
         try {
-            const token = localStorage.getItem("token");
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${userId}`, {
-                method: "DELETE",
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            await api.delete(`/users/${userId}`);
             fetchUsers();
         } catch (err) {
             console.error(err);
             alert("Failed to delete user");
         }
     };
+
 
     const filteredUsers = users
         .filter((u) =>

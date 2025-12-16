@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { api } from "@/lib/api";
 
 interface BlogPost {
     title: string;
@@ -26,12 +27,18 @@ export default function BlogListPage() {
     const perPage = 6;
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogposts`)
-            .then((res) => res.json())
-            .then((data) => {
-                setPosts(data);
-                setFiltered(data);
-            });
+
+        const fetchBlogposts = async () => {
+            try {
+                const res = await api.get("/blogposts");
+                setPosts(res.data);
+                setFiltered(res.data);
+            } catch (err) {
+                console.error("Failed to fetch blogposts:", err);
+            }
+        };
+
+        fetchBlogposts();
     }, []);
 
     useEffect(() => {

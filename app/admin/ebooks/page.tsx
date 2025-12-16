@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { api } from "../../../lib/api";
+
 
 export default function AdminEbooksPage() {
     const [ebooks, setEbooks] = useState<any[]>([]);
@@ -24,11 +26,11 @@ export default function AdminEbooksPage() {
     const perPage = 6;
     const [filtered, setFiltered] = useState<any[]>([]);
 
-    // Fetch ebooks
+
     const fetchEbooks = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ebooks`);
-            const data = await res.json();
+            const res = await api.get("/ebooks");
+            const data = res.data
             setEbooks(data);
             setFiltered(data);
         } catch (e) {
@@ -36,7 +38,8 @@ export default function AdminEbooksPage() {
         } finally {
             setLoadingEbooks(false);
         }
-    };
+
+    }
 
     useEffect(() => {
         fetchEbooks();
@@ -68,8 +71,8 @@ export default function AdminEbooksPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!title.trim() || !description.trim() || !price.trim()) {
+        
+        if (!title.trim() || !description.trim() || !price) {
             alert("Please fill all required fields");
             return;
         }
@@ -81,60 +84,57 @@ export default function AdminEbooksPage() {
             formData.append("title", title);
             formData.append("description", description);
             formData.append("price", price);
+
             if (thumbnail) formData.append("thumbnail", thumbnail);
+
             formData.append("selar_product_id", selarId);
-            
 
-            const token = localStorage.getItem("token");
+            const endpoint = editingSlug
+                ? `/ebooks/${editingSlug}`
+                : `/ebooks`;
 
-            const method = editingSlug ? "PUT" : "POST";
-            const url = editingSlug
-                ? `${process.env.NEXT_PUBLIC_API_URL}/ebooks/${editingSlug}`
-                : `${process.env.NEXT_PUBLIC_API_URL}/ebooks`;
+            const method = editingSlug ? "put" : "post";
 
-            const res = await fetch(url, {
+            await api({
+                url: endpoint,
                 method,
-                body: formData,
+                data: formData,
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
                 },
             });
 
-            if (res.ok) {
-                fetchEbooks();
-                resetForm();
-            } else {
-                const err = await res.json();
-                console.error("Error:", err);
-                alert("Failed to submit ebook");
-            }
+            fetchEbooks();
+            resetForm();
         } catch (err) {
             console.error(err);
-            alert("An error occurred");
+            alert("Failed to submit ebook");
         } finally {
             setSubmitting(false);
         }
     };
 
+
     const deleteEbook = async (slug: string) => {
         if (!confirm("Are you sure you want to delete this ebook?")) return;
-        const token = localStorage.getItem("token");
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ebooks/${slug}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (res.ok) fetchEbooks();
+        try {
+            await api.delete(`/ebooks/${slug}`);
+            fetchEbooks();
+        } catch (err) {
+            console.error(err);
+            alert("Failed to delete ebook");
+        }
     };
+
 
     const loadEbookForEditing = (ebook: any) => {
         setEditingSlug(ebook.slug);
         setTitle(ebook.title);
         setDescription(ebook.description);
         setPrice(ebook.price);
+        setSelarId(ebook.selar_product_id);
+        setThumbnail(ebook.thumbnail_url);
         setFormVisible(true); // show form when editing
     };
 
@@ -215,7 +215,7 @@ export default function AdminEbooksPage() {
                             disabled={submitting}
                             className={`flex-1 py-2 rounded-lg font-semibold text-white ${submitting
                                 ? "bg-indigo-400 cursor-not-allowed"
-                                : "bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                                : "bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
                                 }`}
                         >
                             {submitting

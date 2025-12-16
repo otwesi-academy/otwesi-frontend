@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { parseISO } from "date-fns";
-import { api } from "@/lib/api"; // your axios instance
+import { api, API_BASE_URL } from "@/lib/api";
 
 type Title = {
     _id: string;
@@ -95,11 +95,11 @@ export default function AdminAttendancePage() {
     }
 
     function exportCSV(id: string) {
-        window.open(`${process.env.NEXT_PUBLIC_API_URL}/attendance/${id}/export/csv`);
+        window.open(`${API_BASE_URL}/attendance/${id}/export/csv`);
     }
 
     function exportExcel(id: string) {
-        window.open(`${process.env.NEXT_PUBLIC_API_URL}/attendance/${id}/export/excel`);
+        window.open(`${API_BASE_URL}/attendance/${id}/export/excel`);
     }
 
     // === Attendees modal ===

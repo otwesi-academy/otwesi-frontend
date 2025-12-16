@@ -3,24 +3,25 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto py-16 px-4">
             {/* Header */}
             <h1 className="text-4xl font-bold text-center mb-6">
-                About Otwesi Academy
+                About Otwesi Digital Academy
             </h1>
 
-            <p className="text-center text-gray-600 dark:text-gray-300 mb-16 text-lg max-w-3xl mx-auto">
+            {/* <p className="text-center text-gray-600 dark:text-gray-300 mb-16 text-lg max-w-3xl mx-auto">
                 Empowering learners with accessible, high-quality education in tech, business, and personal development.
-            </p>
+            </p> */}
 
             {/* Our Mission */}
             <section className="mb-20">
-                <h2 className="text-3xl font-semibold mb-4">Our Mission</h2>
+                {/* <h2 className="text-3xl font-semibold mb-4">Our Mission</h2> */}
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-                    At Otwesi Academy, our mission is simple: to make world-class education
-                    available to everyone, everywhere.
+                    We focus on digital literacy, social media literacy, personal branding and professional development;
+                    by guiding beginners, undergraduates, and early-career professionals to build transferable skills, brand their digital identity, and monetize their value online.
                     <br /><br />
-                    We believe that knowledge should be accessible, practical, and tailored
-                    for real-world impact. Whether you're learning a new skill, improving your
-                    career, or expanding your personal knowledge, our platform offers the
-                    tools you need to grow with confidence.
+                    Our approach is simply a combination of structured coaching, practical learning, hands-on experience and 
+                    supportive community, without pressure or shortcuts but accountability and proactiveness.
+                    <br /><br />
+                    At Otwesi, growth is intentional. We help you clarify your digital identity, develop valuable skills,
+                    and build influence and digital assets that support long term impact, productivity and income.
                 </p>
             </section>
 

@@ -1,6 +1,7 @@
 // app/blogpost/[slug]/page.tsx
 
 import Image from "next/image";
+import { api } from "@/lib/api";
 
 interface Block {
     id: string;
@@ -21,14 +22,17 @@ interface BlogPost {
 }
 
 async function getBlogPost(slug: string): Promise<BlogPost> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blogposts/${slug}`, {
-        cache: "no-store",
-    });
-
-    if (!res.ok) throw new Error("Blogpost not found");
-
-    return res.json();
+    try {
+        const res = await api.get<BlogPost>(`/blogposts/${slug}`, {
+            headers: { "Cache-Control": "no-store" },
+        });
+        return res.data;
+    } catch (err: any) {
+        console.error("Failed to fetch blogpost:", err);
+        throw new Error("Blogpost not found");
+    }
 }
+
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

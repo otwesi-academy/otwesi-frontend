@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from "react";
+import { api } from "@/lib/api";
+
 
 export default function ContactPage() {
     const [fullname, setFullname] = useState("");
@@ -15,26 +17,23 @@ export default function ContactPage() {
         setStatus(null);
 
         try {
-            // Create a FormData object to match backend Form(...) fields
             const formData = new FormData();
             formData.append("name", fullname);
             formData.append("address", email);
             formData.append("message", message);
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contacts/send-mail`, {
-                method: "POST",
-                body: formData, // send as form-data
+            await api.post("/contacts/send-mail", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
-
-            if (!res.ok) {
-                throw new Error("Failed to send message");
-            }
 
             setStatus("success");
             setFullname("");
             setEmail("");
             setMessage("");
         } catch (error) {
+            console.error("Failed to send message:", error);
             setStatus("error");
         } finally {
             setLoading(false);

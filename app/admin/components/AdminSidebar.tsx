@@ -12,6 +12,7 @@ const links = [
     { name: "Reviews", href: "/admin/reviews" },
     { name: "Users", href: "/admin/users" },
     { name: "Attendance", href: "/admin/attendance" },
+    { name: "Waitlist", href: "/admin/waitlist" },
 ];
 
 export default function AdminSidebar({

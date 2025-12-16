@@ -36,7 +36,7 @@ export default async function Home() {
       <Hero />
 
 
-      <Section title="Featured Courses">
+      {/* <Section title="Featured Courses">
 
         {
           courses.map((course)=> (
@@ -48,7 +48,7 @@ export default async function Home() {
           ))
         }
 
-      </Section>
+      </Section> */}
 
       <Section title="Popular Ebooks">
         

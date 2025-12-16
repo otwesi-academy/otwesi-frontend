@@ -8,7 +8,13 @@ import { useState } from "react";
 
 const Hero = () => {
     const headline = useTypewriter(
-        ["Learn. Grow. Succeed.", "Build Your Future.", "Upgrade Your Skills."],
+        [
+            "Learn. Earn. Thrive",
+            "Build Digital Assets.",
+            "Brand your Identity.",
+            "Monetize your skills.",
+            "Maximize your value"
+        ],
         120
     );
     const [openVideo, setOpenVideo] = useState(false);
@@ -36,32 +42,36 @@ const Hero = () => {
 
                     {/* Tagline */}
                     <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-full sm:max-w-2xl mx-auto mb-6 sm:mb-8 wrap-break-word">
-                        Join thousands of learners leveling up with high-quality courses, ebooks, and expert insights.
+                        At Otwesi Academy, hundreds of African youths become empowered to brand their digital identity on social media, optimize digital tools and monetize their skills in 28 days.
+                    </p>
+
+                    <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-full sm:max-w-2xl mx-auto mb-6 sm:mb-8 wrap-break-word">
+                        We offer online courses, powerful eBooks, Coaching sessions and capacity building programs on the go.
                     </p>
 
                     {/* Stats */}
                     <div className="flex justify-center gap-6 sm:gap-10 text-white/90 mb-6 sm:mb-10 flex-wrap">
                         <div>
-                            <p className="text-2xl sm:text-3xl font-bold">10k+</p>
+                            <p className="text-2xl sm:text-3xl font-bold">100+</p>
                             <p className="text-sm sm:text-base opacity-70">Students</p>
                         </div>
                         <div>
-                            <p className="text-2xl sm:text-3xl font-bold">250+</p>
-                            <p className="text-sm sm:text-base opacity-70">Courses</p>
+                            <p className="text-2xl sm:text-3xl font-bold">10</p>
+                            <p className="text-sm sm:text-base opacity-70">Modules</p>
                         </div>
                         <div>
-                            <p className="text-2xl sm:text-3xl font-bold">4.9/5</p>
-                            <p className="text-sm sm:text-base opacity-70">Reviews</p>
+                            <p className="text-2xl sm:text-3xl font-bold">28</p>
+                            <p className="text-sm sm:text-base opacity-70">Days</p>
                         </div>
                     </div>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-6 sm:mb-10">
                         <Link
-                            href="/courses"
+                            href="/waitlist"
                             className="px-6 py-3 sm:px-8 sm:py-3 rounded-full text-lg font-semibold bg-white text-indigo-700 hover:bg-gray-200 transition shadow-lg"
                         >
-                            Explore Courses
+                            Join our waitlist
                         </Link>
 
                         <button
