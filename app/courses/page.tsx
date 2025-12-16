@@ -70,7 +70,7 @@ export default function CoursesPage() {
                 {Array(full).fill(0).map((_, i) => <span key={`f${i}`}>★</span>)}
                 {half ? <span>½</span> : null}
                 {Array(empty).fill(0).map((_, i) => (
-                    <span key={`e${i}`} className="text-gray-300 dark:text-gray-600">★</span>
+                    <span key={`e${i}`} className="text-gray-600">★</span>
                 ))}
             </div>
         );
@@ -94,7 +94,7 @@ export default function CoursesPage() {
                     placeholder="Search courses..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full max-w-md px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full max-w-md px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
             </div>
 
@@ -104,7 +104,7 @@ export default function CoursesPage() {
                     <Link
                         key={course._id}
                         href={`/courses/${course.slug}`}
-                        className="block bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden relative"
+                        className="block bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden relative"
                     >
                         {/* New badge */}
                         {isNew(course.created_at) && (
@@ -123,7 +123,7 @@ export default function CoursesPage() {
                             {/* Title + Description */}
                             <div className="mb-4">
                                 <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-                                <p className="text-gray-600 dark:text-gray-300">
+                                <p className="text-gray-300">
                                     {course.description.length > 80
                                         ? course.description.slice(0, 80) + "..."
                                         : course.description}
@@ -133,17 +133,17 @@ export default function CoursesPage() {
                             {/* Price + Level + Rating */}
                             <div className="mt-auto flex flex-col gap-2">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-sm font-medium px-3 py-1 bg-indigo-100 dark:bg-indigo-700 text-indigo-800 dark:text-white rounded-full">
+                                    <span className="text-sm font-medium px-3 py-1 bg-indigo-700 text-white rounded-full">
                                         {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
                                     </span>
-                                    <span className="text-lg font-bold text-gray-900 dark:text-white">
+                                    <span className="text-lg font-bold text-white">
                                         ${course.price.toFixed(2)}
                                     </span>
                                 </div>
 
                                 <div className="flex justify-between items-center">
                                     {renderStars(course.rating)}
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="text-sm text-gray-400">
                                         50 enrolled
                                     </span>
                                 </div>
@@ -163,7 +163,7 @@ export default function CoursesPage() {
                             onClick={() => setCurrentPage(num)}
                             className={`px-4 py-2 rounded-md ${num === currentPage
                                 ? "bg-indigo-600 text-white"
-                                : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+                                : "bg-gray-700 text-white"
                                 }`}
                         >
                             {num}

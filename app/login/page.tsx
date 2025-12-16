@@ -59,7 +59,7 @@ export default function LoginPage() {
 
             <form
                 onSubmit={handleLogin}
-                className="space-y-4 bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow"
+                className="space-y-4 bg-gray-800 p-6 rounded-xl shadow"
             >
                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
                     <label>Email</label>
                     <input
                         type="email"
-                        className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -79,7 +79,7 @@ export default function LoginPage() {
                     <label>Password</label>
                     <input
                         type="password"
-                        className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required

@@ -24,7 +24,7 @@ export default function TestimonialSlider() {
             >
                 {testimonials.map((t, i) => (
                     <SwiperSlide key={i}>
-                        <div className="p-6 bg-white/20 dark:bg-black/20 text-gray-800 dark:text-white rounded-xl backdrop-blur-md shadow-lg text-center">
+                        <div className="p-6 bg-black/20 text-white rounded-xl backdrop-blur-md shadow-lg text-center">
                             <p className="text-lg mb-4 italic wrap-break-word">“{t.text}”</p>
                             <p className="font-bold">{t.name}</p>
                         </div>

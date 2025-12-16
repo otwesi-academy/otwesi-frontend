@@ -35,7 +35,7 @@ export default function WaitlistPage() {
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
             {/* Background Gradient (same as Hero) */}
-            <div className="absolute inset-0 bg-linear-to-br from-indigo-600 via-purple-700 to-fuchsia-600 dark:from-[#0b0f2c] dark:via-[#101637] dark:to-[#13204d]" />
+            <div className="absolute inset-0 bg-linear-to-br  from-[#0b0f2c] via-[#101637] to-[#13204d]" />
 
             {/* Floating Shapes */}
             <div className="absolute top-24 left-10 w-24 h-24 bg-white/20 rounded-xl blur-xl animate-[float_6s_ease-in-out_infinite]" />
@@ -43,7 +43,7 @@ export default function WaitlistPage() {
 
             {/* Card */}
             <div className="relative z-10 w-full max-w-md">
-                <div className="backdrop-blur-md bg-white/10 dark:bg-black/20 p-8 sm:p-10 rounded-3xl border border-white/20 shadow-xl text-center">
+                <div className="backdrop-blur-md bg-black/20 p-8 sm:p-10 rounded-3xl border border-white/20 shadow-xl text-center">
 
                     <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
                         Join the Waitlist

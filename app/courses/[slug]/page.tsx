@@ -55,7 +55,7 @@ export default function CourseDetailPage() {
                 {Array(full).fill(0).map((_, i) => <span key={`f${i}`}>★</span>)}
                 {half ? <span>½</span> : null}
                 {Array(empty).fill(0).map((_, i) => (
-                    <span key={`e${i}`} className="text-gray-300 dark:text-gray-600">★</span>
+                    <span key={`e${i}`} className="text-gray-600">★</span>
                 ))}
             </div>
         );
@@ -66,11 +66,11 @@ export default function CourseDetailPage() {
 
     return (
         <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-            <Link href="/courses" className="text-indigo-600 dark:text-indigo-400 mb-6 inline-block">
+            <Link href="/courses" className="text-indigo-400 mb-6 inline-block">
                 ← Back to Courses
             </Link>
 
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
                 <img
                     src={course.thumbnail_url}
                     alt={course.title}
@@ -81,19 +81,19 @@ export default function CourseDetailPage() {
                     <h1 className="text-3xl font-bold mb-2">{course.title}</h1>
 
                     <div className="flex flex-wrap gap-4 items-center mb-4">
-                        <span className="text-sm font-medium px-3 py-1 bg-indigo-100 dark:bg-indigo-700 text-indigo-800 dark:text-white rounded-full">
+                        <span className="text-sm font-medium px-3 py-1 bg-indigo-700 text-white rounded-full">
                             {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
                         </span>
-                        <span className="text-lg font-bold text-gray-900 dark:text-white">
+                        <span className="text-lg font-bold text-white">
                             ${course.price.toFixed(2)}
                         </span>
                         <div className="flex items-center gap-2">{renderStars(course.rating)}</div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
+                        <span className="text-sm text-gray-400">
                             50 enrolled
                         </span>
                     </div>
 
-                    <p className="text-gray-700 dark:text-gray-300 mb-6">{course.description}</p>
+                    <p className="text-gray-300 mb-6">{course.description}</p>
 
                     <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition shadow">
                         Enroll Now

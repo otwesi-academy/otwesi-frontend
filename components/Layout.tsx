@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-
+import Footer from "./Footer";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="min-h-screen flex flex-col">
             {/* HEADER */}
-            <header className="px-4 sm:px-6 lg:px-8 py-3 bg-[#d4e3fa] dark:bg-gray-800 shadow-md flex justify-between items-center">
+            <header className="px-4 sm:px-6 lg:px-8 py-3 bg-gray-800 shadow-md flex justify-between items-center">
                 <Link href="/" className="text-center">
 
                     <img
@@ -70,23 +70,23 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
             {/* Mobile Dropdown Menu */}
             {mobileOpen && (
-                <div className="md:hidden bg-[#d4e3fa] dark:bg-gray-800 px-4 sm:px-6 py-4 space-y-4 shadow-lg">
-                    <Link href="/courses" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                <div className="md:hidden bg-gray-800 px-4 sm:px-6 py-4 space-y-4 shadow-lg">
+                    <Link href="/courses" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         Courses
                     </Link>
-                    <Link href="/ebooks" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <Link href="/ebooks" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         Ebooks
                     </Link>
-                    <Link href="/blogposts" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <Link href="/blogposts" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         Blog
                     </Link>
-                    <Link href="/attendance" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <Link href="/attendance" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         Attendance
                     </Link>
-                    <Link href="/contact" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <Link href="/contact" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         Contact
                     </Link>
-                    <Link href="/about" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                    <Link href="/about" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                         About Us
                     </Link>
 
@@ -105,10 +105,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         </>
                     ) : (
                         <>
-                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                            <Link href="/login" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                                 Login
                             </Link>
-                            <Link href="/register" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                            <Link href="/register" onClick={() => setMobileOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-700 transition">
                                 Register
                             </Link>
                         </>
@@ -122,10 +122,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 {children}
             </main>
 
-            {/* FOOTER */}
-            <footer className="p-6 text-center bg-[#d4e3fa] dark:bg-gray-800 mt-10">
-                © 2025 OTWESI ACADEMY. All rights reserved.
-            </footer>
+            <Footer />
+            
         </div>
     );
 };

@@ -13,7 +13,7 @@ export default function AboutPage() {
             {/* Our Mission */}
             <section className="mb-20">
                 {/* <h2 className="text-3xl font-semibold mb-4">Our Mission</h2> */}
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                <p className="text-gray-300 leading-relaxed text-lg">
                     We focus on digital literacy, social media literacy, personal branding and professional development;
                     by guiding beginners, undergraduates, and early-career professionals to build transferable skills, brand their digital identity, and monetize their value online.
                     <br /><br />
@@ -30,25 +30,25 @@ export default function AboutPage() {
                 <h2 className="text-3xl font-semibold mb-6">What We Offer</h2>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="p-6 bg-white dark:bg-gray-800 shadow rounded-2xl">
+                    <div className="p-6 bg-gray-800 shadow rounded-2xl">
                         <h3 className="text-xl font-semibold mb-2">Online Courses</h3>
-                        <p className="text-gray-700 dark:text-gray-300">
+                        <p className="text-gray-300">
                             High-quality courses created by industry experts, designed to help
                             you learn by doing.
                         </p>
                     </div>
 
-                    <div className="p-6 bg-white dark:bg-gray-800 shadow rounded-2xl">
+                    <div className="p-6 bg-gray-800 shadow rounded-2xl">
                         <h3 className="text-xl font-semibold mb-2">E-Books</h3>
-                        <p className="text-gray-700 dark:text-gray-300">
+                        <p className="text-gray-300">
                             Carefully crafted e-books that simplify complex topics into
                             easy-to-understand lessons.
                         </p>
                     </div>
 
-                    <div className="p-6 bg-white dark:bg-gray-800 shadow rounded-2xl">
+                    <div className="p-6 bg-gray-800 shadow rounded-2xl">
                         <h3 className="text-xl font-semibold mb-2">Blog Articles</h3>
-                        <p className="text-gray-700 dark:text-gray-300">
+                        <p className="text-gray-300">
                             Weekly articles covering technology, productivity, and personal
                             growth.
                         </p>
@@ -60,7 +60,7 @@ export default function AboutPage() {
             <section className="mb-20">
                 <h2 className="text-3xl font-semibold mb-6">Our Core Values</h2>
 
-                <ul className="space-y-4 text-gray-700 dark:text-gray-300 text-lg">
+                <ul className="space-y-4 text-gray-300 text-lg">
                     <li>• <strong>Excellence</strong> – We deliver only the best learning experience.</li>
                     <li>• <strong>Accessibility</strong> – Education shouldn’t have barriers.</li>
                     <li>• <strong>Community</strong> – We grow together and support learners worldwide.</li>

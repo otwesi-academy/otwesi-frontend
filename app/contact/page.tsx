@@ -44,14 +44,14 @@ export default function ContactPage() {
         <div className="max-w-3xl mx-auto py-16 px-4">
             <h1 className="text-4xl font-bold text-center mb-8">Contact Us</h1>
 
-            <p className="text-center text-gray-600 dark:text-gray-300 mb-10">
+            <p className="text-center text-gray-300 mb-10">
                 Have a question, feedback, or need support?
                 Send us a message and we’ll get back to you shortly.
             </p>
 
             <form
                 onSubmit={handleSubmit}
-                className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg space-y-6"
+                className="bg-gray-800 p-8 rounded-2xl shadow-lg space-y-6"
             >
                 {/* Full Name */}
                 <div>
@@ -61,8 +61,8 @@ export default function ContactPage() {
                         value={fullname}
                         onChange={(e) => setFullname(e.target.value)}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
-                                   bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        className="w-full px-4 py-2 rounded-lg border border-gray-700 
+                                   bg-gray-900 text-white
                                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Enter your name"
                     />
@@ -76,8 +76,8 @@ export default function ContactPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
-                                   bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        className="w-full px-4 py-2 rounded-lg border border-gray-700 
+                                   bg-gray-900 text-white
                                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Enter your email"
                     />
@@ -91,8 +91,8 @@ export default function ContactPage() {
                         onChange={(e) => setMessage(e.target.value)}
                         required
                         rows={5}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
-                                   bg-white dark:bg-gray-900 text-gray-900 dark:text-white
+                        className="w-full px-4 py-2 rounded-lg border border-gray-700 
+                                   bg-gray-900 text-white
                                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Write your message here..."
                     />

@@ -60,7 +60,7 @@ export default function RegisterPage() {
 
             <form
                 onSubmit={handleRegister}
-                className="space-y-4 bg-gray-100 dark:bg-gray-800 p-6 rounded-xl shadow"
+                className="space-y-4 bg-gray-800 p-6 rounded-xl shadow"
             >
                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
@@ -68,7 +68,7 @@ export default function RegisterPage() {
                     <label>Full Name</label>
                     <input
                         type="text"
-                        className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
                         value={fullname}
                         placeholder="John Doe"
                         onChange={(e) => setFullname(e.target.value)}
@@ -81,7 +81,7 @@ export default function RegisterPage() {
                     <label>Email</label>
                     <input
                         type="email"
-                        className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
                         value={email}
                         placeholder="john@doe.com"
                         onChange={(e) => setEmail(e.target.value)}
@@ -95,7 +95,7 @@ export default function RegisterPage() {
                     <input
                         type="password"
                         placeholder="minimum of 6 characters"
-                        className="w-full mt-1 p-2 rounded bg-white dark:bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required

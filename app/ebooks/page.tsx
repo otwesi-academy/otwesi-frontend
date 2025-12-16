@@ -66,7 +66,7 @@ export default function EbooksPage() {
                     placeholder="Search eBooks..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full max-w-md px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full max-w-md px-4 py-2 rounded-lg border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
             </div>
 
@@ -76,7 +76,7 @@ export default function EbooksPage() {
                     <Link
                         key={ebook._id}
                         href={`/ebooks/${ebook.slug}`}
-                        className="block bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden relative"
+                        className="block bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden relative"
                     >
                         {/* NEW badge */}
                         {isNew(ebook.created_at) && (
@@ -97,7 +97,7 @@ export default function EbooksPage() {
                                 <h2 className="text-xl font-semibold mb-2">
                                     {ebook.title}
                                 </h2>
-                                <p className="text-gray-600 dark:text-gray-300">
+                                <p className="text-gray-300">
                                     {ebook.description.length > 80
                                         ? ebook.description.slice(0, 80) + "..."
                                         : ebook.description}
@@ -106,10 +106,10 @@ export default function EbooksPage() {
 
                             {/* Price */}
                             <div className="mt-auto flex justify-between items-center">
-                                <span className="text-lg font-bold text-gray-900 dark:text-white">
+                                <span className="text-lg font-bold text-white">
                                     ₦{ebook.price.toLocaleString()}
                                 </span>
-                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                <span className="text-sm text-gray-400">
                                     eBook
                                 </span>
                             </div>
@@ -127,7 +127,7 @@ export default function EbooksPage() {
                             onClick={() => setCurrentPage(num)}
                             className={`px-4 py-2 rounded-md ${num === currentPage
                                     ? "bg-indigo-600 text-white"
-                                    : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white"
+                                    : "bg-gray-700 text-white"
                                 }`}
                         >
                             {num}
