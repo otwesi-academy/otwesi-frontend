@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import AdminCard from "./components/AdminCard";
 import { useAuth } from "../../context/AuthContext";
-import { api } from "../../lib/api";
-
+import { api } from "@/lib/clientApi";
 
 export default function AdminDashboard() {
     const { user } = useAuth(); // get user from context

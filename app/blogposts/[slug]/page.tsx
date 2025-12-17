@@ -1,7 +1,11 @@
 // app/blogpost/[slug]/page.tsx
 
 import Image from "next/image";
-import { api } from "@/lib/api";
+import { api } from "@/lib/clientApi";
+
+import { BlogPost } from "@/types/types";
+
+
 
 interface Block {
     id: string;
@@ -9,17 +13,7 @@ interface Block {
     content: string;
 }
 
-interface BlogPost {
-    title: string;
-    slug: string;
-    content: string; // JSON string of blocks
-    thumbnail_url: string | null;
-    category: string;
-    author: {
-        fullname: string;
-    };
-    created_at: string;
-}
+
 
 async function getBlogPost(slug: string): Promise<BlogPost> {
     try {

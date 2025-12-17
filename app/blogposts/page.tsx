@@ -3,21 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { api } from "@/lib/api";
+import { api } from "@/lib/clientApi";
+import { BlogPost } from "@/types/types";
 
-interface BlogPost {
-    title: string;
-    slug: string;
-    content: string;
-    thumbnail_url: string | null;
-    category: string;
-    author: {
-        username?: string;
-        fullname?: string;
-        email?: string;
-    };
-    created_at: string;
-}
 
 export default function BlogListPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);

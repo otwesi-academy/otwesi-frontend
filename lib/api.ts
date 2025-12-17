@@ -1,119 +1,122 @@
-import axios, { AxiosError } from "axios";
+// "use client"; // important: this file is client-only
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+// import axios, { AxiosError, AxiosRequestConfig } from "axios";
+// import { useRouter } from "next/navigation";
+// import { Course, Ebook, BlogPost } from "@/types/types";
 
-// -------------------------------------------------------
-// Axios instance
-// -------------------------------------------------------
-export const api = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true,
-});
+// export const API_BASE_URL =
+//   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
-// -------------------------------------------------------
-// Request: attach access token from localStorage (client only)
-// -------------------------------------------------------
-api.interceptors.request.use(
-  (config) => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// // -------------------------------------------------------
+// // Axios instance
+// // -------------------------------------------------------
+// export const api = axios.create({
+//   baseURL: API_BASE_URL,
+//   withCredentials: true, // important for HTTP-only cookies
+// });
 
-// -------------------------------------------------------
-// Refresh logic
-// -------------------------------------------------------
-let isRefreshing = false;
-let failedQueue: any[] = [];
+// // -------------------------------------------------------
+// // Type for queue
+// // -------------------------------------------------------
+// interface FailedQueueItem {
+//   resolve: (value?: unknown) => void;
+//   reject: (error: unknown) => void;
+// }
 
-const processQueue = (error: AxiosError | null, token: string | null) => {
-  failedQueue.forEach((prom) => {
-    if (error) prom.reject(error);
-    else prom.resolve(token);
-  });
-  failedQueue = [];
-};
+// let isRefreshing = false;
+// let failedQueue: FailedQueueItem[] = [];
 
-// -------------------------------------------------------
-// Response: auto-refresh on 401
-// -------------------------------------------------------
-api.interceptors.response.use(
-  (res) => res,
-  async (error: AxiosError) => {
-    const originalRequest: any = error.config;
+// // -------------------------------------------------------
+// const processQueue = (
+//   error: AxiosError | null,
+//   token: string | null = null
+// ) => {
+//   failedQueue.forEach(({ resolve, reject }) => {
+//     if (error) reject(error);
+//     else resolve(token);
+//   });
+//   failedQueue = [];
+// };
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = "Bearer " + token;
-            return api(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
-      }
+// // -------------------------------------------------------
+// // Response interceptor: auto-refresh on 401
+// // -------------------------------------------------------
+// export const setupInterceptors = (router: ReturnType<typeof useRouter>) => {
+//   api.interceptors.response.use(
+//     (response) => response,
+//     async (error: AxiosError) => {
+//       const originalRequest = error.config as AxiosRequestConfig & {
+//         _retry?: boolean;
+//       };
 
-      originalRequest._retry = true;
-      isRefreshing = true;
+//       // Only handle 401 errors for requests other than refresh endpoint
+//       if (
+//         error.response?.status === 401 &&
+//         !originalRequest._retry &&
+//         !originalRequest.url?.includes("/users/auth/refresh")
+//       ) {
+//         if (isRefreshing) {
+//           return new Promise((resolve, reject) => {
+//             failedQueue.push({ resolve, reject });
+//           })
+//             .then(() => api(originalRequest))
+//             .catch((err) => Promise.reject(err));
+//         }
 
-      try {
-        const refresh = await api.post("/auth/refresh");
-        const newToken = refresh.data?.access_token;
+//         originalRequest._retry = true;
+//         isRefreshing = true;
 
-        if (newToken) {
-          if (typeof window !== "undefined") {
-            localStorage.setItem("token", newToken);
-          }
-          api.defaults.headers.Authorization = `Bearer ${newToken}`;
-        }
+//         try {
+//           const refreshRes = await api.post("/users/auth/refresh"); // backend must read refresh cookie
+//           const newAccessToken = refreshRes.data?.access_token;
 
-        processQueue(null, newToken);
+//           if (!newAccessToken)
+//             throw new Error("No access token returned during refresh");
 
-        originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return api(originalRequest);
-      } catch (refreshErr: any) {
-        processQueue(refreshErr, null);
+//           api.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+//           originalRequest.headers = {
+//             ...originalRequest.headers,
+//             Authorization: `Bearer ${newAccessToken}`,
+//           };
 
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("token");
-          window.location.href = "/login"; // <--- UNIVERSAL REDIRECT
-        }
+//           processQueue(null, newAccessToken);
+//           return api(originalRequest);
+//         } catch (refreshErr: any) {
+//           processQueue(refreshErr, null);
 
-        return Promise.reject(refreshErr);
-      } finally {
-        isRefreshing = false;
-      }
-    }
+//           // Client-side redirect to login
+//           if (typeof window !== "undefined") {
+//             router.push("/login");
+//           }
 
-    return Promise.reject(error);
-  }
-);
+//           return Promise.reject(refreshErr);
+//         } finally {
+//           isRefreshing = false;
+//         }
+//       }
 
-// -------------------------------------------------------
-// API Helpers
-// -------------------------------------------------------
-export const courseApi = {
-  listCourses() {
-    return api.get("/courses").then((r) => r.data);
-  },
-};
+//       return Promise.reject(error);
+//     }
+//   );
+// };
 
-export const ebookApi = {
-  listEbooks() {
-    return api.get("/ebooks").then((r) => r.data);
-  },
-};
+// // -------------------------------------------------------
+// // Generic data extractor
+// // -------------------------------------------------------
+// const extractData = <T>(promise: Promise<any>): Promise<T> =>
+//   promise.then((res) => res.data);
 
-export const blogpostApi = {
-  listBlogposts() {
-    return api.get("/blogposts").then((r) => r.data);
-  },
-};
+// // -------------------------------------------------------
+// // API Helpers
+// // -------------------------------------------------------
+// export const courseApi = {
+//   listCourses: () => extractData<Course[]>(api.get("/courses")),
+// };
+
+// export const ebookApi = {
+//   listEbooks: () => extractData<Ebook[]>(api.get("/ebooks")),
+// };
+
+// export const blogpostApi = {
+//   listBlogposts: () => extractData<BlogPost[]>(api.get("/blogposts")),
+// };

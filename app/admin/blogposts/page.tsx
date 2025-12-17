@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { api } from "../../../lib/api";
-
+import { api } from "@/lib/clientApi";
 
 type Block = {
     id: string;

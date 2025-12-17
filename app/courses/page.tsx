@@ -4,21 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseISO } from "date-fns";
 
-import { courseApi } from "@/lib/api";
+import { courseApi } from "@/lib/serverApi";
+import { Course } from "@/types/types";
 
-
-interface Course {
-    _id: string;
-    title: string;
-    description: string;
-    slug: string;
-    price: number;
-    level: string;
-    thumbnail_url: string;
-    created_at: string;
-    updated_at: string;
-    rating?: number;
-}
 
 export default function CoursesPage() {
     

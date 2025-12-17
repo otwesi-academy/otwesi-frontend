@@ -4,32 +4,34 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { parseISO } from "date-fns";
 
-interface Ebook {
-    _id: string;
-    title: string;
-    description: string;
-    slug: string;
-    price: number;
-    thumbnail_url: string;
-    selar_product_id: string;
-    created_at: string;
-    updated_at: string;
-}
+import { Ebook } from "@/types/types";
+import { api } from "@/lib/clientApi";
 
 export default function EbooksPage() {
     const [ebooks, setEbooks] = useState<Ebook[]>([]);
     const [search, setSearch] = useState("");
     const [filtered, setFiltered] = useState<Ebook[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
     const perPage = 6;
 
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/ebooks`)
-            .then((res) => res.json())
-            .then((data) => {
+        const fetchEbooks = async () => {
+            try {
+                const { data } = await api.get<Ebook[]>("/ebooks");
                 setEbooks(data);
                 setFiltered(data);
-            });
+            } catch (err) {
+                console.error(err);
+                setError("Failed to load ebooks.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchEbooks();
     }, []);
 
     // Handle search
@@ -54,6 +56,22 @@ export default function EbooksPage() {
         const diff = now.getTime() - date.getTime();
         return diff <= 7 * 24 * 60 * 60 * 1000;
     };
+
+    if (loading) {
+        return (
+            <div className="py-20 text-center text-gray-400">
+                Loading ebooks...
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="py-20 text-center text-red-500">
+                {error}
+            </div>
+        );
+    }
 
     return (
         <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -92,7 +110,6 @@ export default function EbooksPage() {
                         />
 
                         <div className="p-6 flex flex-col">
-                            {/* Title + Description */}
                             <div className="mb-4">
                                 <h2 className="text-xl font-semibold mb-2">
                                     {ebook.title}
@@ -104,7 +121,6 @@ export default function EbooksPage() {
                                 </p>
                             </div>
 
-                            {/* Price */}
                             <div className="mt-auto flex justify-between items-center">
                                 <span className="text-lg font-bold text-white">
                                     ₦{ebook.price.toLocaleString()}

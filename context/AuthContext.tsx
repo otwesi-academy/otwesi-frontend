@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "@/lib/clientApi";
 
 interface User {
     fullname: string;
@@ -11,29 +12,29 @@ interface User {
 
 interface AuthContextType {
     user: User | null;
-    loading: boolean; // new
+    loading: boolean;
     login: (user: User) => void;
-    logout: () => void;
+    logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
     loading: true,
     login: () => { },
-    logout: () => { },
+    logout: async () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true); // new: loading flag
+    const [loading, setLoading] = useState(true);
 
-    // Load user info from localStorage on mount
+    // Load user from localStorage on mount
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false); // done loading
+        setLoading(false);
     }, []);
 
     const login = (userData: User) => {
@@ -43,16 +44,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = async () => {
         try {
-            // Call backend to delete HttpOnly cookie
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/logout`, {
-                method: "POST",
-                credentials: "include", // Important to send cookie
-            });
+            // Backend clears HttpOnly cookies
+            await api.post("/users/logout");
         } catch (err) {
-            console.error("Error logging out:", err);
+            // Even if backend fails, we still clear client state
+            console.error("Logout request failed:", err);
+        } finally {
+            localStorage.removeItem("user");
+            setUser(null);
         }
-        localStorage.removeItem("user");
-        setUser(null);
     };
 
     return (

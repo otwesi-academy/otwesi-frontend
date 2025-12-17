@@ -2,46 +2,38 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { parseISO } from "date-fns";
 import Link from "next/link";
 
-interface Course {
-    _id: string;
-    title: string;
-    description: string;
-    slug: string;
-    price: number;
-    level: string;
-    thumbnail_url: string;
-    created_at: string;
-    updated_at: string;
-    rating?: number;
-}
+import { api } from "@/lib/clientApi";
+import { Course } from "@/types/types";
 
 export default function CourseDetailPage() {
-    const { slug } = useParams(); // get slug from URL
-    console.log("slug" + slug);
-    
+    const params = useParams();
     const router = useRouter();
+
+    const slug = Array.isArray(params.slug)
+        ? params.slug[0]
+        : params.slug;
 
     const [course, setCourse] = useState<Course | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!slug) return;
-        fetch(`http://localhost:8000/api/v1/courses/${slug}`)
-            .then((res) => {
-                if (!res.ok) throw new Error("Course not found");
-                return res.json();
-            })
-            .then((data) => {
+
+        const fetchCourse = async () => {
+            try {
+                const { data } = await api.get<Course>(`/courses/${slug}`);
                 setCourse(data);
-            })
-            .catch((err) => {
-                console.error(err);
+            } catch (err) {
+                console.error("Failed to load course:", err);
                 router.push("/courses"); // redirect if not found
-            })
-            .finally(() => setLoading(false));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCourse();
     }, [slug, router]);
 
     // Render star rating
@@ -52,17 +44,26 @@ export default function CourseDetailPage() {
 
         return (
             <div className="flex items-center space-x-1 text-yellow-400">
-                {Array(full).fill(0).map((_, i) => <span key={`f${i}`}>★</span>)}
+                {Array.from({ length: full }).map((_, i) => (
+                    <span key={`f${i}`}>★</span>
+                ))}
                 {half ? <span>½</span> : null}
-                {Array(empty).fill(0).map((_, i) => (
-                    <span key={`e${i}`} className="text-gray-600">★</span>
+                {Array.from({ length: empty }).map((_, i) => (
+                    <span key={`e${i}`} className="text-gray-600">
+                        ★
+                    </span>
                 ))}
             </div>
         );
     };
 
-    if (loading) return <div className="text-center py-20">Loading course...</div>;
-    if (!course) return <div className="text-center py-20">Course not found</div>;
+    if (loading) {
+        return <div className="text-center py-20">Loading course...</div>;
+    }
+
+    if (!course) {
+        return <div className="text-center py-20">Course not found</div>;
+    }
 
     return (
         <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
@@ -82,18 +83,26 @@ export default function CourseDetailPage() {
 
                     <div className="flex flex-wrap gap-4 items-center mb-4">
                         <span className="text-sm font-medium px-3 py-1 bg-indigo-700 text-white rounded-full">
-                            {course.level.charAt(0).toUpperCase() + course.level.slice(1)}
+                            {course.level.charAt(0).toUpperCase() +
+                                course.level.slice(1)}
                         </span>
+
                         <span className="text-lg font-bold text-white">
-                            ${course.price.toFixed(2)}
+                            ₦{course.price.toLocaleString()}
                         </span>
-                        <div className="flex items-center gap-2">{renderStars(course.rating)}</div>
+
+                        <div className="flex items-center gap-2">
+                            {renderStars(course.rating)}
+                        </div>
+
                         <span className="text-sm text-gray-400">
                             50 enrolled
                         </span>
                     </div>
 
-                    <p className="text-gray-300 mb-6">{course.description}</p>
+                    <p className="text-gray-300 mb-6">
+                        {course.description}
+                    </p>
 
                     <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition shadow">
                         Enroll Now

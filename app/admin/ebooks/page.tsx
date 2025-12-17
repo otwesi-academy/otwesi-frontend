@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { api } from "../../../lib/api";
-
+import { api } from "@/lib/clientApi";
 
 export default function AdminEbooksPage() {
     const [ebooks, setEbooks] = useState<any[]>([]);

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { parseISO } from "date-fns";
-import { api, API_BASE_URL } from "@/lib/api";
+
+import { api, API_BASE_URL } from "@/lib/clientApi";
 
 type Title = {
     _id: string;

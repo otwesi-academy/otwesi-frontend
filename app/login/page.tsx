@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "@/lib/clientApi";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -17,7 +18,7 @@ export default function LoginPage() {
     // Redirect if already logged in
     useEffect(() => {
         if (user) {
-            router.replace("/"); // redirect logged-in users
+            router.replace("/");
         }
     }, [user, router]);
 
@@ -27,27 +28,22 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/auth/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-                credentials: "include", // ✅ important for cookies
+            const { data } = await api.post("/users/auth/login", {
+                email,
+                password,
             });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                setError(data.detail || "Invalid login credentials");
-                setLoading(false);
-                return;
-            }
 
             // Save only user info in context
             login(data.user);
 
-            router.replace("/"); // redirect home/dashboard
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
+            router.replace("/");
+        } catch (err: any) {
+            const message =
+                err?.response?.data?.detail ||
+                err?.response?.data?.message ||
+                "Invalid login credentials";
+
+            setError(message);
         } finally {
             setLoading(false);
         }

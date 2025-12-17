@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { api } from "@/lib/api";
+import { api } from "@/lib/clientApi";
 
 export default function WaitlistPage() {
     const [email, setEmail] = useState("");

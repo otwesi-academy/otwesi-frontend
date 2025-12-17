@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useAuth } from "../../context/AuthContext";
+import { api } from "@/lib/clientApi";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -19,7 +20,7 @@ export default function RegisterPage() {
     // Redirect if already logged in
     useEffect(() => {
         if (user) {
-            router.replace("/"); // redirect logged-in users
+            router.replace("/");
         }
     }, [user, router]);
 
@@ -29,26 +30,26 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/auth/register`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fullname, email, password }),
+            const { data } = await api.post("/users/auth/register", {
+                fullname,
+                email,
+                password,
             });
 
-            const data = await res.json();
+            // Option 1 (recommended): redirect to login
+            router.replace("/login");
 
-            if (!res.ok) {
-                setError(data.detail || "Registration failed");
-                setLoading(false);
-                return;
-            }
+            // Option 2 (if backend logs user in automatically)
+            // login(data.user);
+            // router.replace("/");
 
-            // Auto-login after registration
-            login(data.user);
+        } catch (err: any) {
+            const message =
+                err?.response?.data?.detail ||
+                err?.response?.data?.message ||
+                "Registration failed";
 
-            router.replace("/login"); 
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
+            setError(message);
         } finally {
             setLoading(false);
         }
@@ -56,7 +57,9 @@ export default function RegisterPage() {
 
     return (
         <div className="max-w-md mx-auto py-12">
-            <h1 className="text-3xl font-bold mb-6 text-center">Create Account</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">
+                Create Account
+            </h1>
 
             <form
                 onSubmit={handleRegister}
@@ -117,11 +120,19 @@ export default function RegisterPage() {
                         Click here to login
                     </Link>
                 </p>
+
                 <p className="text-center text-sm mt-2">
-                    By continuing you agree to our 
-                    <Link href="/terms" className="text-red-600 hover:underline"> Terms </Link> 
-                    & 
-                    <Link href="/privacy-policy" className="text-red-600 hover:underline"> Privacy policy</Link> 
+                    By continuing you agree to our{" "}
+                    <Link href="/terms" className="text-red-600 hover:underline">
+                        Terms
+                    </Link>{" "}
+                    &{" "}
+                    <Link
+                        href="/privacy-policy"
+                        className="text-red-600 hover:underline"
+                    >
+                        Privacy Policy
+                    </Link>
                 </p>
             </form>
         </div>
