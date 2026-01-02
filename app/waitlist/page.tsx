@@ -65,7 +65,7 @@ export default function WaitlistPage() {
                 w-full px-5 py-3 rounded-full
                 bg-white/90 text-gray-900
                 placeholder-gray-500
-                outline-none focus:ring-2 focus:ring-yellow-300
+                outline-none focus:ring-2 focus:ring-blue-300
               "
                         />
 
@@ -99,7 +99,7 @@ export default function WaitlistPage() {
                     <div className="mt-8">
                         <Link
                             href="/"
-                            className="text-sm text-white/70 hover:text-white transition"
+                            className="text-sm text-white/70 hover:text-white transition hover:underline"
                         >
                             ← Back to home
                         </Link>

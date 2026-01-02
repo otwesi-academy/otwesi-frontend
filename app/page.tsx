@@ -9,11 +9,30 @@ export default async function Home() {
   const ebooks = (await ebookApi.listEbooks()).slice(0, 3);
   const blogposts = (await blogpostApi.listBlogposts()).slice(0, 3);
 
+  function getPostPreview(content: string, maxLength = 100) {
+    try {
+      const blocks = JSON.parse(content);
+
+      const text = blocks
+        .filter((b: any) => b.type === "text")
+        .map((b: any) => b.content)
+        .join(" ");
+
+      return text.length > maxLength
+        ? text.slice(0, maxLength) + "..."
+        : text;
+    } catch (err) {
+      console.error("Failed to parse content for preview:", err);
+      return "";
+    }
+  }
+
+
   return (
     <>
       <Hero />
 
-      <Section title="Featured Courses">
+      {/* <Section title="Featured Courses">
         {courses.map((course) => (
           <Card
             key={course.slug}
@@ -22,7 +41,7 @@ export default async function Home() {
             link={`/courses/${course.slug}`}
           />
         ))}
-      </Section>
+      </Section> */}
 
       <Section title="Popular Ebooks">
         {ebooks.map((ebook) => (
@@ -40,7 +59,7 @@ export default async function Home() {
           <Card
             key={blogpost.slug}
             title={blogpost.title}
-            description={blogpost.content.substring(0, 100) + "..."}
+            description={getPostPreview(blogpost.content, 100)}
             link={`/blogposts/${blogpost.slug}`}
           />
         ))}

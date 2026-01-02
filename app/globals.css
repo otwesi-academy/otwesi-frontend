@@ -30,6 +30,15 @@
   }
 }
 
+
+html {
+  scroll-behavior: smooth;
+}
+
+button {
+  cursor: pointer;
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "../../context/AuthContext";
+import { Eye, EyeOff } from "lucide-react"
+import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/clientApi";
+
+const MIN_PASSWORD_LENGTH = 6
 
 export default function LoginPage() {
     const router = useRouter();
@@ -12,8 +15,11 @@ export default function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const isPasswordTooShort = password.length > 0 && password.length < MIN_PASSWORD_LENGTH;
 
     // Redirect if already logged in
     useEffect(() => {
@@ -25,6 +31,12 @@ export default function LoginPage() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
+        if (password.length < MIN_PASSWORD_LENGTH) {
+            setError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters`);
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -63,7 +75,7 @@ export default function LoginPage() {
                     <label>Email</label>
                     <input
                         type="email"
-                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
+                        className="w-full mt-1 p-2 rounded bg-gray-700 border focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -73,14 +85,28 @@ export default function LoginPage() {
 
                 <div>
                     <label>Password</label>
-                    <input
-                        type="password"
-                        className="w-full mt-1 p-2 rounded bg-gray-700 border"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        disabled={loading}
-                    />
+                    <div className="relative">
+
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className="w-full mt-1 p-2 rounded bg-gray-700 border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            disabled={loading}
+                        />
+
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((v) => !v)}
+                            className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                            aria-label="Toggle password visibility"
+                        >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+
+                    </div>
+                    
                 </div>
 
                 <button
@@ -90,6 +116,15 @@ export default function LoginPage() {
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
+
+                <p className="text-sm text-right">
+                    <Link
+                        href="/forgot-password"
+                        className="text-blue-600 hover:underline"
+                    >
+                        Forgot password?
+                    </Link>
+                </p>
 
                 <p className="text-center text-sm mt-2">
                     Don&apos;t have an account?{" "}
