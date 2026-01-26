@@ -20,7 +20,6 @@ export default function CoursesPage() {
         const fetchCourses = async () => {
             try {
                 const data = await courseApi.listCourses()
-                console.log(data);
                 
                 setCourses(data);
                 setFiltered(data);    

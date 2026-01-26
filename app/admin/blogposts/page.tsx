@@ -127,7 +127,6 @@ export default function AdminBlogPostsPage() {
             const endpoint = editingSlug
                 ? `/blogposts/${editingSlug}`
                 : `/blogposts`;
-            console.log("here here: ", endpoint)
             const method = editingSlug ? "put" : "post";
 
             const res = await api({

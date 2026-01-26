@@ -9,7 +9,7 @@ const links = [
     { name: "Courses", href: "/admin/courses" },
     { name: "Ebooks", href: "/admin/ebooks" },
     { name: "Blogposts", href: "/admin/blogposts" },
-    { name: "Reviews", href: "/admin/reviews" },
+    { name: "Orders", href: "/admin/orders" },
     { name: "Users", href: "/admin/users" },
     { name: "Attendance", href: "/admin/attendance" },
     { name: "Waitlist", href: "/admin/waitlist" },

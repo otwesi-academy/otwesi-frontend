@@ -45,7 +45,6 @@ export default function AdminAttendancePage() {
         try {
             setLoading(true);
             const res = await api.get("/attendance/titles");
-            console.log(res.data)
             setTitles(res.data);
         } catch (err) {
             console.error("fetchTitles error", err);
@@ -134,7 +133,6 @@ export default function AdminAttendancePage() {
                 params: { search: search || undefined, page, limit },
             });
             const payload = res.data;
-            console.log(payload)
             setAttendees(payload.attendees || []);
             setAttTotalPages(payload.total_pages || 1);
         } catch (err) {

@@ -12,7 +12,6 @@ export interface Course {
 }
 
 
-
 interface Author {
   fullname: string;
 }
@@ -42,4 +41,24 @@ export interface BlogPost {
         email?: string;
     };
     created_at: string;
+}
+
+
+export interface Order {
+    _id: string;
+    order_code: string;
+    status: string;
+    total_amount: number;
+    currency: string;
+    created_at: string;
+    payment_method: string;
+    buyer: {
+        fullname: string;
+        email: string;
+    };
+    ebook: {
+        title: string;
+        price: number;
+        thumbnail_url: string;
+    };
 }

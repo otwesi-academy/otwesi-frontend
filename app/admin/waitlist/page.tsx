@@ -46,11 +46,9 @@ export default function AdminWaitlistPage() {
                     search: s || undefined,
                 },
             });
-            console.log(res.data.waitlists);
             
             setItems(res.data.waitlists || []);
             setTotalPages(res.data.total_pages || 1);
-            console.log(items);
         } catch (err) {
             console.error("fetchWaitlist error", err);
             setItems([]);

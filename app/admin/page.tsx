@@ -45,6 +45,9 @@ export default function AdminDashboard() {
                 <AdminCard title="Blogposts" count={stats.blogposts} />
                 <AdminCard title="Reviews" count={stats.reviews} />
                 <AdminCard title="Users" count={stats.users} />
+                <AdminCard title="Orders" count={stats.orders} />
+                <AdminCard title="Waitlists" count={stats.waitlists} />
+                <AdminCard title="Online Classes" count={stats.attendance} />
             </div>
         </div>
     );

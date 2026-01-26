@@ -2,10 +2,10 @@ import Hero from "../components/Hero";
 import Section from "../components/Section";
 import Card from "../components/Card";
 
-import { courseApi, ebookApi, blogpostApi } from "@/lib/serverApi";
+import { ebookApi, blogpostApi } from "@/lib/serverApi";
 
 export default async function Home() {
-  const courses = (await courseApi.listCourses()).slice(0, 3);
+  // const courses = (await courseApi.listCourses()).slice(0, 3);
   const ebooks = (await ebookApi.listEbooks()).slice(0, 3);
   const blogposts = (await blogpostApi.listBlogposts()).slice(0, 3);
 
